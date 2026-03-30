@@ -1,0 +1,54 @@
+---
+import { GitBranch, AlertCircle, CheckCircle2, Wifi, RefreshCw } from 'lucide-astro';
+---
+
+<footer class="h-6 bg-[--color-editor-sidebar] border-t border-[--color-editor-border] text-gray-400 flex justify-between items-center px-3 text-[11px] fixed bottom-0 w-full z-50 select-none">
+  
+  <div class="flex items-center h-full">
+    <div class="flex items-center gap-1.5 px-3 h-full hover:bg-[--color-editor-hover] hover:text-white cursor-pointer transition-colors group">
+      <GitBranch size={12} class="group-hover:text-blue-400" />
+      <span class="font-medium">main*</span>
+    </div>
+
+    <div class="flex items-center px-2 h-full hover:bg-[--color-editor-hover] cursor-pointer transition-colors">
+      <RefreshCw size={12} />
+    </div>
+
+    <div class="flex items-center gap-3 px-3 h-full hover:bg-[--color-editor-hover] cursor-pointer transition-colors border-r border-[--color-editor-border]">
+      <div class="flex items-center gap-1">
+        <AlertCircle size={12} class="text-red-500" />
+        <span>0</span>
+      </div>
+      <div class="flex items-center gap-1">
+        <AlertCircle size={12} class="text-yellow-500 rotate-180" />
+        <span>0</span>
+      </div>
+    </div>
+  </div>
+  
+  <div class="flex items-center h-full gap-1">
+    
+    <div class="px-3 h-full hover:bg-[--color-editor-hover] cursor-help flex items-center gap-2">
+      <span class="opacity-70">UTF-8</span>
+    </div>
+
+    <div class="px-3 h-full hover:bg-[--color-editor-hover] cursor-help flex items-center gap-2">
+      <span class="text-[--color-syntax-type] font-bold">Astro v6.1</span>
+      <span class="text-gray-600">|</span>
+      <span class="text-yellow-500/80 font-mono">Bun</span>
+    </div>
+
+    <div class="flex items-center gap-2 px-3 h-full bg-blue-600/10 text-blue-400 font-bold border-l border-[--color-editor-border]">
+      <Wifi size={12} class="animate-pulse" />
+      <span class="tracking-tight uppercase text-[9px]">Connected</span>
+      <CheckCircle2 size={12} class="text-emerald-500" />
+    </div>
+  </div>
+</footer>
+
+<style>
+  /* Evita que el contenido del body quede oculto tras el footer */
+  :global(body) {
+    padding-bottom: 1.5rem; /* 24px que mide el footer */
+  }
+</style>

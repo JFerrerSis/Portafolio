@@ -1,0 +1,91 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import CodeBlock from '../components/CodeBlock.astro';
+import { Mail, MessageCircle, Terminal, ExternalLink } from 'lucide-astro'; // Agregado
+
+
+const email = import.meta.env.CONTACT_EMAIL || "jorge@ejemplo.com";
+const whatsapp = import.meta.env.CONTACT_WHATSAPP || "584120000000";
+
+let line = 1;
+const getLine = () => line++;
+---
+
+<MainLayout title="contacto.ts">
+  <section class="max-w-5xl mx-auto py-12 px-6">
+    
+    <div class="mb-4">
+      <CodeBlock line={getLine()} active={true}>
+        <span class="text-syntax-control">import</span> 
+        <span class="text-syntax-attr">{`{ Connection, Protocol }`}</span> 
+        <span class="text-syntax-control">from</span> 
+        <span class="text-syntax-string">"@jferrer/core"</span><span class="text-gray-400">;</span>
+      </CodeBlock>
+
+      <CodeBlock line={getLine()}>
+        <span class="text-syntax-tag">class</span> 
+        <span class="text-syntax-type">JorgeFerrer</span> <span class="text-gray-400">&#123;</span>
+      </CodeBlock>
+    </div>
+
+    <div class="group relative">
+      <a href={`mailto:${email}`} class="absolute inset-0 z-10" title="Redactar Correo"></a>
+      <CodeBlock line={getLine()}>
+        <span class="ml-8 text-syntax-tag">readonly</span> 
+        <span class="text-syntax-attr">email</span> <span class="text-gray-400">=</span> 
+        <span class="text-syntax-string">"{email}"</span><span class="text-gray-400">;</span>
+        <Mail size={14} class="inline ml-2 text-syntax-func opacity-0 group-hover:opacity-100 transition-opacity" />
+      </CodeBlock>
+    </div>
+
+    <div class="group relative">
+      <a href={`https://wa.me/${whatsapp.replace('+', '')}`} target="_blank" class="absolute inset-0 z-10" title="Abrir WhatsApp"></a>
+      <CodeBlock line={getLine()}>
+        <span class="ml-8 text-syntax-tag">readonly</span> 
+        <span class="text-syntax-attr">whatsapp</span> <span class="text-gray-400">=</span> 
+        <span class="text-syntax-string">"wa.me/{whatsapp}"</span><span class="text-gray-400">;</span>
+        <MessageCircle size={14} class="inline ml-2 text-syntax-string opacity-0 group-hover:opacity-100 transition-opacity" />
+      </CodeBlock>
+    </div>
+
+    <CodeBlock line={getLine()}>
+        <span class="text-gray-400">&#125;</span>
+    </CodeBlock>
+
+    <div class="mt-12 space-y-1">
+      <CodeBlock line={getLine()}>
+        <span class="text-gray-500 italic">// Ejecutar conexión inmediata:</span>
+      </CodeBlock>
+
+      <div class="flex flex-wrap gap-4 mt-2">
+        <a href={`mailto:${email}`} class="flex items-center gap-2 px-3 py-1 bg-[#2d2d2d] border border-[#404040] hover:border-syntax-func transition-colors rounded-sm group">
+          <span class="text-xs font-mono text-syntax-func">Enviar Correo()</span>
+          <ExternalLink size={12} class="text-gray-500 group-hover:text-white" />
+        </a>
+
+        <a href={`https://wa.me/${whatsapp.replace('+', '')}`} target="_blank" class="flex items-center gap-2 px-3 py-1 bg-[#2d2d2d] border border-[#404040] hover:border-syntax-string transition-colors rounded-sm group">
+          <span class="text-xs font-mono text-syntax-string">Enviar Whatsapp()</span>
+          <ExternalLink size={12} class="text-gray-500 group-hover:text-white" />
+        </a>
+      </div>
+    </div>
+
+
+
+  </section>
+</MainLayout>
+
+<style>
+  /* Mantenemos la estética de editor */
+  section { cursor: default; }
+  
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  /* Resaltado de línea al hacer hover en los canales */
+  .group:hover :global(.code-block) {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+</style>

@@ -1,0 +1,87 @@
+---
+import LineNumber from './LineNumber.astro';
+
+interface Props {
+  name: string;
+  description: string;
+  stack: string[];
+  url: string;
+  startLine: number; 
+}
+
+const { name, description, stack, url, startLine } = Astro.props;
+---
+
+<div class="group/project border-l-2 border-transparent hover:border-blue-500/30 hover:bg-[--color-editor-hover]/20 transition-all duration-150 py-0.5 relative">
+  
+  <div class="flex items-center">
+    <LineNumber number={startLine.toString()} />
+    <code class="text-gray-300 ml-4 md:ml-8 font-bold">&#123;</code>
+  </div>
+
+  <div class="flex items-center">
+    <LineNumber number={(startLine + 1).toString()} />
+    <code class="text-sm ml-8 md:ml-16">
+      <span class="text-syntax-attr">"name"</span><span class="text-gray-400">:</span> 
+      <a 
+        href={url} 
+        target="_blank" 
+        rel="noopener noreferrer"
+        class="text-syntax-string hover:underline decoration-dotted underline-offset-4 cursor-pointer group-hover/project:text-blue-400 transition-colors"
+      >
+        "{name}"
+      </a><span class="text-gray-400">,</span>
+    </code>
+  </div>
+
+  <div class="flex items-center">
+    <LineNumber number={(startLine + 2).toString()} />
+    <code class="text-sm ml-8 md:ml-16">
+      <span class="text-syntax-attr">"description"</span><span class="text-gray-400">:</span> 
+      <span class="text-syntax-string">"{description}"</span><span class="text-gray-400">,</span>
+    </code>
+  </div>
+
+  <div class="flex items-center">
+    <LineNumber number={(startLine + 3).toString()} />
+    <code class="text-sm ml-8 md:ml-16">
+      <span class="text-syntax-attr">"stack"</span><span class="text-gray-400">:</span> <span class="text-gray-300">[</span>
+      {stack.map((tech, index) => (
+        <span class="text-syntax-string">
+          "{tech}"<span class="text-gray-400">{index < stack.length - 1 ? ", " : ""}</span>
+        </span>
+      ))}
+      <span class="text-gray-300">]</span>
+    </code>
+  </div>
+
+  <div class="flex items-center">
+    <LineNumber number={(startLine + 4).toString()} />
+    <code class="text-gray-300 ml-4 md:ml-8 font-bold">&#125;,</code>
+  </div>
+
+  <div class="absolute right-4 top-2 opacity-0 group-hover/project:opacity-100 transition-opacity hidden lg:block pointer-events-none">
+    <span class="text-[10px] bg-[#252526] text-gray-400 px-2 py-1 rounded border border-[#454545] font-mono shadow-xl">
+      Follow link (Ctrl+Click)
+    </span>
+  </div>
+</div>
+
+<style>
+  code {
+    white-space: nowrap;
+    font-family: 'Fira Code', 'JetBrains Mono', monospace;
+  }
+  
+  /* El número de línea en VS Code suele ser un gris muy apagado (#858585) */
+  div :global(.line-number) {
+    color: #858585 !important;
+    min-width: 3.5rem;
+    text-align: right;
+    padding-right: 1.5rem;
+  }
+
+  div:hover :global(.line-number) {
+    color: #c6c6c6 !important;
+  }
+</style>

@@ -1,0 +1,48 @@
+---
+import LineNumber from './LineNumber.astro';
+
+interface Props {
+  line: string | number;
+  indent?: number;
+  active?: boolean; // Nueva prop para resaltar la línea actual
+}
+
+const { line, indent = 0, active = false } = Astro.props;
+
+// Mapeo de indentación usando las utilidades de espaciado de Tailwind
+const indentClasses = [
+  'ml-0',
+  'ml-4 md:ml-8',
+  'ml-8 md:ml-16',
+  'ml-12 md:ml-24'
+];
+
+const currentIndent = indentClasses[indent] || 'ml-0';
+---
+
+<div 
+  class={`
+    flex items-center w-full transition-colors group/line select-none
+    ${active ? 'bg-[--color-editor-active] border-l-2 border-blue-500/50' : 'hover:bg-[--color-editor-hover]/30 border-l-2 border-transparent'}
+  `}
+>
+  <div class="shrink-0">
+    <LineNumber number={line.toString()} />
+  </div>
+
+  <div class={`flex-1 font-mono text-[13px] md:text-sm leading-6 py-0.5 ${currentIndent} select-text text-[--color-editor-text]`}>
+    <code class="block whitespace-pre">
+      <slot />
+    </code>
+  </div>
+</div>
+
+<style>
+  /* Importante: Esto no genera CSS extra, solo le da a Tailwind la "brújula" */
+  @reference "../styles/global.css"; 
+
+  div :global(.line-number) {
+    /* Ahora sí reconocerá text-gray-600 */
+    @apply text-gray-600 text-right pr-4 transition-colors;
+  }
+</style>

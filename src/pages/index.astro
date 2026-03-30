@@ -1,17 +1,151 @@
 ---
+import MainLayout from '../layouts/MainLayout.astro';
+import CodeBlock from '../components/CodeBlock.astro';
+import Terminal from '../components/Terminal.astro';
 
+const PROFILE = {
+  identidad: {
+    nombre: "Jorge Ferrer",
+    alias: "Jferrer",
+    origen: "Maracaibo, VZLA",
+  },
+  rol: {
+    principal: "Desarrollador Full-Stack",
+    secundario: "Especialista en Soporte IT",
+  },
+  stack_tecnico: {
+    dominio: ["React", "Astro", "Docker", "SQL Server", "Postgres"],
+    entorno: "Parrot OS / Linux Kernel",
+    flujo_trabajo: ["Contenerización", "CI/CD", "Scraping"]
+  },
+  proyectos_activos: ["PharosApp", "MidNight Studio"],
+  estado: {
+    disponibilidad: "disponible_para_proyectos",
+    nivel_energia: "100%",
+    tiempo_actividad: "99.99%"
+  }
+};
+
+let lineCounter = 1;
+const getLine = () => lineCounter++;
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<MainLayout title="sobre_mi.json">
+  <section class="max-w-5xl mx-auto py-12 px-6">
+    
+
+    <div class="mb-1">
+      <CodeBlock line={getLine()} active={true}>
+        <span class="text-gray-400 font-bold">&#123;</span>
+      </CodeBlock>
+    </div>
+
+    <div class="space-y-0.5">
+      <CodeBlock line={getLine()}>
+        <span class="ml-8 text-syntax-attr">"identidad"</span><span class="text-gray-400">: &#123;</span>
+      </CodeBlock>
+      {Object.entries(PROFILE.identidad).map(([key, value]) => (
+        <CodeBlock line={getLine()}>
+          <span class="ml-16 text-syntax-attr">"{key}"</span>
+          <span class="text-gray-400">: </span>
+          <span class="text-syntax-string">"{value}"</span>
+          <span class="text-gray-400">,</span>
+        </CodeBlock>
+      ))}
+      <CodeBlock line={getLine()}>
+        <span class="ml-8 text-gray-400">&#125;,</span>
+      </CodeBlock>
+    </div>
+
+    <div class="mt-4 space-y-0.5">
+      <CodeBlock line={getLine()}>
+        <span class="ml-8 text-syntax-attr">"rol"</span><span class="text-gray-400">: &#123;</span>
+      </CodeBlock>
+      {Object.entries(PROFILE.rol).map(([key, value]) => (
+        <CodeBlock line={getLine()}>
+          <span class="ml-16 text-syntax-attr">"{key}"</span>
+          <span class="text-gray-400">: </span>
+          <span class="text-syntax-string">"{value}"</span>
+          <span class="text-gray-400">,</span>
+        </CodeBlock>
+      ))}
+      <CodeBlock line={getLine()}>
+        <span class="ml-8 text-gray-400">&#125;,</span>
+      </CodeBlock>
+    </div>
+
+    <div class="mt-4">
+      <CodeBlock line={getLine()}>
+        <span class="ml-8 text-syntax-attr">"stack_tecnico"</span><span class="text-gray-400">: &#123;</span>
+      </CodeBlock>
+      {Object.entries(PROFILE.stack_tecnico).map(([category, items]) => (
+        <CodeBlock line={getLine()}>
+          <span class="ml-16 text-syntax-attr">"{category}"</span><span class="text-gray-400">: </span>
+          {Array.isArray(items) ? (
+            <span class="text-gray-400">[ 
+              {items.map((item, i) => (
+                <span class="text-syntax-string">"{item}"</span><span class="text-gray-400">{i < items.length - 1 ? ", " : ""}</span>
+              ))}
+            ]</span>
+          ) : (
+            <span class="text-syntax-string">"{items}"</span>
+          )}
+          <span class="text-gray-400">,</span>
+        </CodeBlock>
+      ))}
+      <CodeBlock line={getLine()}>
+        <span class="ml-8 text-gray-400">&#125;,</span>
+      </CodeBlock>
+    </div>
+
+    <div class="mt-4">
+      <CodeBlock line={getLine()}>
+        <span class="ml-8 text-syntax-attr">"estado"</span><span class="text-gray-400">: &#123;</span>
+      </CodeBlock>
+      {Object.entries(PROFILE.estado).map(([key, value]) => (
+        <CodeBlock line={getLine()}>
+          <span class="ml-16 text-syntax-attr">"{key}"</span>
+          <span class="text-gray-400">: </span>
+          <span class="text-syntax-string">"{value}"</span>
+          <span class="text-gray-400">,</span>
+        </CodeBlock>
+      ))}
+      <CodeBlock line={getLine()}>
+        <span class="ml-8 text-gray-400">&#125;</span>
+      </CodeBlock>
+    </div>
+
+    <div class="mt-1">
+      <CodeBlock line={getLine()}>
+        <span class="text-gray-400 font-bold">&#125;</span>
+      </CodeBlock>
+    </div>
+
+    <div class="my-16 relative">
+      <div class="absolute inset-0 flex items-center" aria-hidden="true">
+        <div class="w-full border-t border-[#333]"></div>
+      </div>
+      <div class="relative flex justify-center">
+        <span class="bg-[#1e1e1e] px-4 text-[10px] font-mono text-gray-500 uppercase tracking-[0.5em]">
+          Consola de Depuración
+        </span>
+      </div>
+    </div>
+
+    <div class="relative group/terminal max-w-5xl mx-auto mb-20">
+      <div class="relative rounded-lg overflow-hidden border border-[#333] shadow-2xl bg-[#1e1e1e]">
+        <Terminal />
+      </div>
+    </div>
+
+  </section>
+</MainLayout>
+
+<style>
+  section { cursor: default; }
+  
+  :global(.code-block:hover .text-syntax-attr) {
+    text-shadow: 0 0 10px rgba(156, 220, 254, 0.3);
+    transition: text-shadow 0.2s ease;
+  }
+</style>

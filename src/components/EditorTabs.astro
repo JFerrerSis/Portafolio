@@ -1,0 +1,44 @@
+---
+import { FileJson, FileCode, FileText, X } from 'lucide-astro';
+
+const { pathname } = Astro.url;
+
+const navFiles = [
+ { name: "Informacion.json", icon: FileJson, color: "text-yellow-400", href: "/" },
+  { name: "Projectos.ts", icon: FileCode, color: "text-blue-400", href: "/projects" },
+  { name: "Contactame.ts", icon: FileText, color: "text-blue-400", href: "/contact" },
+];
+
+const isActive = (href: string) => pathname === href || (pathname.startsWith(href) && href !== '/');
+---
+
+<div class="h-9 bg-editor-sidebar flex border-b border-editor-border overflow-x-auto no-scrollbar shrink-0">
+  {navFiles.map((file) => {
+    const Icon = file.icon;
+    const active = isActive(file.href);
+
+    return (
+      <a 
+        href={file.href}
+        data-astro-prefetch="hover"
+        class={`
+          px-3 h-full flex items-center gap-2 border-r border-editor-border text-[12px] shrink-0 relative transition-none group
+          ${active ? 'bg-[#1e1e1e] text-white' : 'text-gray-500 hover:bg-editor-hover'}
+        `}
+      >
+        {active && <span class="absolute top-0 left-0 right-0 h-0.5 bg-blue-500"></span>}
+        <Icon size={14} class={`${file.color} ${active ? 'opacity-100' : 'opacity-60'}`} />
+        <span class={active ? "font-medium" : ""}>{file.name}</span>
+        
+        <button class={`ml-2 rounded p-0.5 transition-none ${active ? 'text-gray-400 hover:bg-[#333]' : 'opacity-0 group-hover:opacity-100 text-gray-500 hover:bg-[#333]'}`}>
+          <X size={14} />
+        </button>
+      </a>
+    )
+  })}
+</div>
+
+<style>
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+</style>

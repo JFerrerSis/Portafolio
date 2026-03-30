@@ -1,0 +1,54 @@
+---
+import { FileJson, FileCode, FileText, ChevronDown, FolderOpen } from 'lucide-astro';
+
+const { pathname } = Astro.url;
+
+const files = [
+  { name: "Informacion.json", icon: FileJson, color: "text-yellow-400", href: "/" },
+  { name: "Projectos.ts", icon: FileCode, color: "text-blue-400", href: "/projects" },
+  { name: "Contactame.ts", icon: FileText, color: "text-blue-400", href: "/contact" },
+];
+
+const isActive = (href: string) => pathname === href || (pathname.startsWith(href) && href !== '/');
+---
+
+<aside class="w-64 bg-[--color-editor-sidebar] border-r border-[--color-editor-border] h-full hidden md:flex flex-col shrink-0 select-none">
+  
+  <div class="flex items-center justify-between px-4 py-3 text-10px uppercase tracking-[0.2em] text-gray-500 font-bold">
+    <span>Explorador</span>
+  </div>
+
+  <div class="flex items-center gap-1 px-2 py-1 text-[--color-editor-text] hover:bg-[--color-editor-hover] cursor-pointer text-xs font-bold">
+    <ChevronDown size={14} class="text-gray-500" />
+    <FolderOpen size={14} class="text-blue-400/80" />
+    <span class="ml-1 truncate uppercase tracking-tighter text-[11px]">PORTAFOLIO</span>
+  </div>
+
+  <nav class="mt-1">
+    <ul class="space-y-px">
+      {files.map((file) => {
+        const Icon = file.icon;
+        const active = isActive(file.href);
+
+        return (
+          <li>
+            <a 
+              href={file.href}
+              class={`
+                group flex items-center gap-2 px-6 py-1 text-sm transition-all relative
+                ${active 
+                  ? 'bg-[--color-editor-active] text-white' 
+                  : 'text-gray-400 hover:bg-[--color-editor-hover] hover:text-gray-200'}
+              `}
+            >
+              {active && <span class="absolute left-0 top-0 bottom-0 w-0.5 bg-blue-500"></span>}
+
+              <Icon size={16} class={`${file.color} shrink-0 opacity-90`} />
+              <span class="truncate">{file.name}</span>
+            </a>
+          </li>
+        )
+      })}
+    </ul>
+  </nav>
+</aside>
